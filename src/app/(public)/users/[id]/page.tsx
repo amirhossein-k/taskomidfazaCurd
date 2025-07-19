@@ -1,25 +1,12 @@
+// src\app\(public)\users\[id]\page.tsx
 import Profile from '@/components/user/Profile';
 import { FetchUsersSingle } from '@/lib/axios/axiosRequest';
 import { notFound } from 'next/navigation';
 import { SingleUSerResponse } from '@/types/types';
 
-type Props = {
-  params: {
-    id: string;
-  };
-};
-
-export default async function Page({ params }: Props) {
-  const { id } = params;
-
-  let userData: SingleUSerResponse | null = null;
-
-  try {
-    userData = await FetchUsersSingle(id);
-  } catch (error) {
-    console.error("خطا در دریافت کاربر:", error);
-    notFound();
-  }
+export default async function Page(props: Promise<{ params: { id: string } }>) {
+  const { params } = await props;
+  const userData = await FetchUsersSingle(params.id);
 
   if (!userData?.data) notFound();
 
