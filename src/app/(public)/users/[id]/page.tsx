@@ -1,26 +1,27 @@
-// ✅ src/app/(public)/users/[id]/page.tsx
-
 import Profile from '@/components/user/Profile';
 import { FetchUsersSingle } from '@/lib/axios/axiosRequest';
 import { notFound } from 'next/navigation';
-// import { UserType } from '@/types/types';
+import { SingleUSerResponse } from '@/types/types';
 
-type PageProps = {
+interface UserPageParams {
   params: {
     id: string;
   };
-};
+}
 
-export default async function UserPage({ params }: PageProps) {
+export default async function UserPage({ params }: UserPageParams) {
   const { id } = params;
 
-  try {
-    const userData = await FetchUsersSingle(id);
-    if (!userData || !userData.data) notFound();
+  let userData: SingleUSerResponse | null = null;
 
-    return <Profile user={userData.data} />;
+  try {
+    userData = await FetchUsersSingle(id);
   } catch (error) {
     console.error("خطا در دریافت کاربر:", error);
     notFound();
   }
+
+  if (!userData?.data) notFound();
+
+  return <Profile user={userData.data} />;
 }
