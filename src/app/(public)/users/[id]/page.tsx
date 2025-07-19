@@ -3,13 +3,13 @@ import { FetchUsersSingle } from '@/lib/axios/axiosRequest';
 import { notFound } from 'next/navigation';
 import { SingleUSerResponse } from '@/types/types';
 
-interface UserPageParams {
+type Props = {
   params: {
     id: string;
   };
-}
+};
 
-export default async function UserPage({ params }: UserPageParams) {
+export default async function Page({ params }: Props) {
   const { id } = params;
 
   let userData: SingleUSerResponse | null = null;
