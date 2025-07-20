@@ -5,6 +5,10 @@ interface modal {
   id: number;
   open: boolean;
 }
+interface userShow {
+  id: number;
+
+}
 interface userState {
   users: UserType[];
   page: number;
@@ -13,6 +17,7 @@ interface userState {
   error: string | null;
   perPage: number;
   modalEdit: modal;
+   userShow:userShow
 }
 
 const initialState: userState = {
@@ -23,6 +28,7 @@ const initialState: userState = {
   totalpage: 1,
   perPage: 6,
   modalEdit: { id: 1, open: false },
+  userShow:{id:0}
 };
 
 const userSlice = createSlice({
@@ -45,6 +51,9 @@ const userSlice = createSlice({
     setModalEdit: (state, action: PayloadAction<modal>) => {
       state.modalEdit = action.payload;
     },
+    setUserShow: (state, action: PayloadAction<userShow>) => {
+      state.userShow = action.payload;
+    },
     setError: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload;
     },
@@ -58,6 +67,7 @@ export const {
   setUsers,
   setPerPage,
   setModalEdit,
+  setUserShow
 } = userSlice.actions;
 
 export default userSlice.reducer;

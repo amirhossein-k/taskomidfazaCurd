@@ -4,6 +4,8 @@ import { sign } from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
 
+// برای سیو کاربر در api داخلی  به صورت کوکی
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();

@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
 
 export async function POST(req: Request) {
+  // برای اینکه بتوانم اطلاعات را به صورت کوکی ذخیره کنم
   try {
     const { tokken, email, password, createAt, name, family } =
       await req.json();

@@ -40,6 +40,7 @@ export interface UpdateUserRes{
 }
 
 export interface RegisterResponse {
+  
   id:number
   token:string
     createdAt: string
@@ -59,3 +60,8 @@ export type ResCustom<T ,R> = {
     success: boolean;
   };
 };
+
+
+export interface tokeRead {
+   id:string, email:string, password:string, createAt:string, name:string, family:string
+}

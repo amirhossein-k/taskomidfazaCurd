@@ -10,6 +10,7 @@ type PageProps = {
 
 
 export default async function Page({ params }: PageProps) {
+  // به صورت سروری  اطلاعات را میگریم و پاس میدهم به صفحه کلاینت چون باید از کوکی اطلاعات بخونم و این تنها راهه که کوکی امن hhtponly بتوان خواند
     // asynchronous access of `params.id`.
  const { id } = await params
   let userData: SingleUSerResponse | null = null;

@@ -1,6 +1,9 @@
 'use client';
+import { setUserShow } from "@/store/usesrSlice";
 import { UserType } from "@/types/types";
 import Image from "next/image";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 type Props = {
   user: UserType;
@@ -8,6 +11,12 @@ type Props = {
 
 const Profile = ({ user }: Props) => {
 
+// ایدی را سیو کند تا  بتوانم بالای صفحه مسیر را بخوانم که اگر در این مسیر بودیم مسیری که طی شده را نمایش بدهم
+    const dispatch = useDispatch()
+  useEffect(() => {
+  
+     dispatch(setUserShow({id:user.id})); 
+  }, [setUserShow,dispatch]);
 
   return (
     <div className="mainn px-4 py-6 max-w-md sm:max-w-xl mx-auto text-black">

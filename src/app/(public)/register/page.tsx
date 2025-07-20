@@ -103,6 +103,7 @@ const RegisterPage = () => {
     email?: string;
   }): Promise<CombinedRegisterResponse> => {
     if (api) {
+      // api خارجی
       if (!email || !password) {
         throw new Error("ایمیل و پسورد الزامی هستند");
       }
@@ -139,7 +140,7 @@ const RegisterPage = () => {
     mutationFn: createUser,
     onSuccess: (data) => {
       if ("status" in data) {
-        // یعنی ResCustom
+        // یعنی ResCustom api داخلی
         if (data.status.success && data.data) {
           toast.success(
             `ثبت نام موفق با ID: ${data.data.id} وساعت ${data.data.createdAt}`
@@ -148,7 +149,7 @@ const RegisterPage = () => {
         }
       } else if ("token" in data) {
         // یعنی RegisterResponse
-        toast.success(`ورود موفق با api خارجی: ${data.createdAt}`);
+        toast.success(`ورود موفق با api خارجی}`);
         router.push("/profile");
       }
     },
