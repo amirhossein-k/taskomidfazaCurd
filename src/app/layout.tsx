@@ -4,6 +4,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./Providers";
 import { Toaster } from "react-hot-toast";
+import { Suspense } from "react";
+import LoadingUser from "./(public)/users/loading";
 
 
 
@@ -43,7 +45,9 @@ export default function RootLayout({
             <Toaster position="top-center" />
 
        
-        <div className=" main">{children}</div>
+       <Suspense fallback={ <LoadingUser />}>
+            <div className="main">{children}</div>
+          </Suspense>
               <footer className="text-center text text-sm text-gray-500 py-4">
                 ساخته شده توسط امیرحسین کریمی
         </footer>
