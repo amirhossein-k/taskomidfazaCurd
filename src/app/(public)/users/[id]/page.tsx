@@ -1,28 +1,29 @@
-// src/app/(public)/users/[id]/page.tsx
+'use server'
+import { FetchUsersSingle } from "@/lib/axios/axiosRequest";
+import { notFound } from "next/navigation";
+import Profile from "@/components/user/Profile";
+import { SingleUSerResponse } from "@/types/types";
 
-import { FetchUsersSingle } from '@/lib/axios/axiosRequest';
-import { notFound } from 'next/navigation';
-import Profile from '@/components/user/Profile';
-import { SingleUSerResponse } from '@/types/types';
-
-type Props = {
-  params: { id: string };
+type PageProps = {
+  params: Promise<{ id: string }>;
 };
 
-export default async function Page({ params }: Props) {
-  // params باید به‌درستی دریافت شود و استفاده شود.
-  const { id } = params;
 
+export default async function Page({ params }: PageProps) {
+    // asynchronous access of `params.id`.
+ const { id } = await params
   let userData: SingleUSerResponse | null = null;
 
   try {
     userData = await FetchUsersSingle(id);
   } catch (error) {
     console.error("خطا در دریافت کاربر:", error);
-    notFound();  // در صورت بروز خطا به صفحه 404 بروید.
+    notFound();
   }
 
-  if (!userData || !userData.data) notFound(); // اگر داده‌ها یافت نشدند، صفحه 404 را نمایش بده
+  if (!userData || !userData.data) {
+    notFound();
+  }
 
   return <Profile user={userData.data} />;
 }

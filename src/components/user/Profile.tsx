@@ -1,5 +1,4 @@
-"use client";
-
+'use client';
 import { UserType } from "@/types/types";
 import Image from "next/image";
 

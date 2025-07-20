@@ -32,6 +32,12 @@ export interface CreateUserType{
   id:string
     createdAt: string
 }
+export interface UpdateUserRes{
+ name: string
+    family: string
+    updatedAt: string
+    id? :number
+}
 
 export interface RegisterResponse {
   id:number

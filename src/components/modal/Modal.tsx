@@ -1,5 +1,5 @@
 import { CreateUser, UpdateUser } from "@/lib/axios/axiosRequest";
-import { CreateUserType, ResCustom } from "@/types/types";
+import { CreateUserType, ResCustom, UpdateUserRes } from "@/types/types";
 import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
@@ -35,7 +35,8 @@ const Modal: React.FC<ModalProps> = ({ setOpenFirst }) => {
     name: string;
     family: string;
   }) => {
-    const resUser = await UpdateUser(name, family);
+    const id = modalEdit.id
+    const resUser = await UpdateUser(name, family,id);
     return resUser;
   };
 
@@ -66,10 +67,10 @@ const Modal: React.FC<ModalProps> = ({ setOpenFirst }) => {
   const UpdateMutation = useMutation({
     mutationFn: updateUser,
 
-    onSuccess: (data: ResCustom<CreateUserType, null>) => {
+    onSuccess: (data: ResCustom<UpdateUserRes, null>) => {
       if (data?.status.success) {
         toast.success(
-          ` ${data.status.message} در ساعت:${data.data?.createdAt}`
+          ` ${data.status.message} در ساعت:${data.data?.updatedAt}`
         );
         setOpenFirst(false);
       } else {
@@ -124,7 +125,7 @@ const Modal: React.FC<ModalProps> = ({ setOpenFirst }) => {
           <X />
         </button>
         <h1 className="text-center mt-5 text-xl shadow-md my-2 py-2 ">
-          فرم ثبت کاربر
+          {modalEdit.open ? "فرم ویرایش" : "فرم ثبت کاربر"}
         </h1>
         {errorMessage && (
           <div className="mb-4 text-right text-red-500">{errorMessage}</div>
@@ -144,7 +145,7 @@ const Modal: React.FC<ModalProps> = ({ setOpenFirst }) => {
                 defaultValue={
                   modalEdit.open
                     ? users.find((item) => item.id === modalEdit.id)
-                        ?.first_name || ""
+                      ?.first_name || ""
                     : ""
                 }
                 placeholder="اسم خود را بنویسید"
@@ -152,7 +153,7 @@ const Modal: React.FC<ModalProps> = ({ setOpenFirst }) => {
               />
             </div>
             <div className="mb-4 p-2 flex flex-col gap-4">
-              <label htmlFor="job" id="job">
+              <label htmlFor="family" id="family">
                 فامیلی:
               </label>
 
@@ -163,7 +164,7 @@ const Modal: React.FC<ModalProps> = ({ setOpenFirst }) => {
                 defaultValue={
                   modalEdit.open
                     ? users.find((item) => item.id === modalEdit.id)
-                        ?.last_name || ""
+                      ?.last_name || ""
                     : ""
                 }
                 placeholder="فامیلی خود را بنویسید"
@@ -175,7 +176,11 @@ const Modal: React.FC<ModalProps> = ({ setOpenFirst }) => {
               disabled={pending}
               type="submit"
             >
-              {pending ? "منتظر باشید" : "ایجاد"}
+              {pending
+                ? "منتظر باشید"
+                : modalEdit.open
+                  ? " ویرایش"
+                  : " ثبت کاربر"}
             </button>
           </form>
         </div>

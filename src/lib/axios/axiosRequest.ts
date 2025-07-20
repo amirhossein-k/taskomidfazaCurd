@@ -5,6 +5,7 @@ import {
   RegisterResponse,
   ResCustom,
   SingleUSerResponse,
+  UpdateUserRes,
   UsersResponse,
   UserType,
 } from "@/types/types";
@@ -161,10 +162,11 @@ export const CreateUser = async (
 
 export const UpdateUser = async (
   name: string,
-  family: string
-): Promise<ResCustom<CreateUserType, null>> => {
-  const res = await axiosOrder.put<CreateUserType>(
-    ``,
+  family: string,
+  id:number
+): Promise<ResCustom<UpdateUserRes, null>> => {
+  const res = await axiosOrder.put<UpdateUserRes>(
+    `/${id}`,
     { name, family },
     { headers: { "Cache-Control": "no-store" } }
   );
@@ -174,12 +176,14 @@ export const UpdateUser = async (
   if (res.status === 200) {
     return {
       data: {
-        createdAt: getTimeFrom(res.data.createdAt.toString()),
-        id: res.data.id,
+        updatedAt: getTimeFrom(res.data.updatedAt.toString()),
+        id:id,
+        name:res.data.name,
+        family:res.data.family
       },
       status: {
         error: false,
-        message: `کاربر با ایدی :${res.data.id}  اپدیت شد.`,
+        message: `کاربر با ایدی :${id}  اپدیت شد.`,
         success: true,
       },
     };
